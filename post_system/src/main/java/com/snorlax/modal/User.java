@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
 
@@ -26,6 +27,9 @@ public class User {
 	@Column(nullable = false, unique = true)
 	@Email(message = "Email should be valid")
 	private String email;
+	
+	@ManyToOne
+	private Store store;
 	
 	@Column(nullable = false)
 	private String password;

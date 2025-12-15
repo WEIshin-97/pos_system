@@ -1,0 +1,9 @@
+package com.snorlax.payload.response;
+
+import lombok.Data;
+
+@Data
+public class ApiResponse {
+	String message;
+
+}
