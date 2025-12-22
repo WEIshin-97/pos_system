@@ -10,17 +10,21 @@ import com.snorlax.modal.Product;
 import com.snorlax.modal.Store;
 import com.snorlax.modal.User;
 import com.snorlax.payload.dto.ProductDto;
-import com.snorlax.repository.ProductRepository;
-import com.snorlax.repository.StoreRepository;
+import com.snorlax.repository.jpa.ProductRepository;
+import com.snorlax.repository.jpa.StoreRepository;
+import com.snorlax.repository.mybatis.ProductMyBatisMapper;
 import com.snorlax.service.ProductService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional //Writing to DB (save / update / delete) | Multiple DB calls in one method | Mixing JPA + MyBatis | Business logic, not just read-only
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService{
 	
 	private final ProductRepository productRepository;
+	private final ProductMyBatisMapper productMyBatisMapper;
 	private final StoreRepository storeRepository;
 	
 	@Override
@@ -74,7 +78,7 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<ProductDto> searchByKeyword(Long storeId, String keyword) {
-		List<Product> products = productRepository.searchByKeyword(storeId, keyword);
+		List<Product> products = productMyBatisMapper.searchByKeyword(storeId, keyword);
 		
 		return products.stream()
 				.map(ProductMapper::toDTO)
