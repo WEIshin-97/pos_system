@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.snorlax.modal.User;
-import com.snorlax.repository.UserRepository;
+import com.snorlax.repository.jpa.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 

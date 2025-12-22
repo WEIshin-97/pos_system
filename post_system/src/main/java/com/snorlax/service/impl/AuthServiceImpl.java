@@ -18,7 +18,7 @@ import com.snorlax.mapper.UserMapper;
 import com.snorlax.modal.User;
 import com.snorlax.payload.dto.UserDto;
 import com.snorlax.payload.response.AuthResponse;
-import com.snorlax.repository.UserRepository;
+import com.snorlax.repository.jpa.UserRepository;
 import com.snorlax.service.AuthService;
 
 import lombok.RequiredArgsConstructor;

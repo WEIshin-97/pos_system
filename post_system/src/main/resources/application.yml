@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: post_system
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/pos_system
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 5001
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.snorlax.modal

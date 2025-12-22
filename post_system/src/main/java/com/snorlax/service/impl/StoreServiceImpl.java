@@ -13,7 +13,7 @@ import com.snorlax.modal.Store;
 import com.snorlax.modal.StoreContact;
 import com.snorlax.modal.User;
 import com.snorlax.payload.dto.StoreDto;
-import com.snorlax.repository.StoreRepository;
+import com.snorlax.repository.jpa.StoreRepository;
 import com.snorlax.service.StoreService;
 import com.snorlax.service.UserService;
 

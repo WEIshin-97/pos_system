@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.snorlax.config.JwtProvider;
 import com.snorlax.exceptions.UserException;
 import com.snorlax.modal.User;
-import com.snorlax.repository.UserRepository;
+import com.snorlax.repository.jpa.UserRepository;
 import com.snorlax.service.UserService;
 
 import lombok.RequiredArgsConstructor;
