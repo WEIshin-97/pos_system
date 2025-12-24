@@ -6,10 +6,12 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.snorlax.mapper.ProductMapper;
+import com.snorlax.modal.Category;
 import com.snorlax.modal.Product;
 import com.snorlax.modal.Store;
 import com.snorlax.modal.User;
 import com.snorlax.payload.dto.ProductDto;
+import com.snorlax.repository.jpa.CategoryRepository;
 import com.snorlax.repository.jpa.ProductRepository;
 import com.snorlax.repository.jpa.StoreRepository;
 import com.snorlax.repository.mybatis.ProductMyBatisMapper;
@@ -26,6 +28,7 @@ public class ProductServiceImpl implements ProductService{
 	private final ProductRepository productRepository;
 	private final ProductMyBatisMapper productMyBatisMapper;
 	private final StoreRepository storeRepository;
+	private final CategoryRepository categoryRepository;
 	
 	@Override
 	public ProductDto createProduct(ProductDto productDto, User user) throws Exception {
@@ -33,7 +36,10 @@ public class ProductServiceImpl implements ProductService{
 		Store store = storeRepository.findById(productDto.getStoreId())
 				.orElseThrow(() -> new Exception("Store not found"));
 		
-		Product product = ProductMapper.toEntity(productDto, store);
+		Category category = categoryRepository.findById(productDto.getCategoryId())
+				.orElseThrow(() -> new Exception("Category not found"));
+		
+		Product product = ProductMapper.toEntity(productDto, store, category);
 		Product savedProduct = productRepository.save(product);
 		
 		return ProductMapper.toDTO(savedProduct);
@@ -52,6 +58,13 @@ public class ProductServiceImpl implements ProductService{
 		product.setMrp(productDto.getMrp());
 		product.setSellingPrice(productDto.getSellingPrice());
 		product.setBrand(productDto.getBrand());
+		
+		if(productDto.getCategoryId() != null) {
+			Category category = categoryRepository.findById(productDto.getCategoryId())
+					.orElseThrow(() -> new Exception("Category not found"));
+			
+			product.setCategory(category);
+		}
 		
 		Product savedProduct = productRepository.save(product);
 		

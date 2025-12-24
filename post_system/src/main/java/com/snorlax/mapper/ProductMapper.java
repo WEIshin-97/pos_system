@@ -1,5 +1,6 @@
 package com.snorlax.mapper;
 
+import com.snorlax.modal.Category;
 import com.snorlax.modal.Product;
 import com.snorlax.modal.Store;
 import com.snorlax.payload.dto.ProductDto;
@@ -16,6 +17,7 @@ public class ProductMapper {
 				.mrp(product.getMrp())
 				.sellingPrice(product.getSellingPrice())
 				.brand(product.getBrand())
+				.category(CategoryMapper.toDto(product.getCategory()))
 				.storeId(product.getStore() != null ? product.getStore().getId() : null)
 				.image(product.getImage())
 				.createdAt(product.getCreatedAt())
@@ -29,7 +31,7 @@ public class ProductMapper {
 	//Builder is preferred for API response DTOs.
 	
 	
-	public static Product toEntity(ProductDto dto, Store store) {
+	public static Product toEntity(ProductDto dto, Store store, Category category) {
 
 	    Product product = new Product();
 	    product.setName(dto.getName());
@@ -39,7 +41,8 @@ public class ProductMapper {
 	    product.setSellingPrice(dto.getSellingPrice());
 	    product.setBrand(dto.getBrand());
 //	    product.setImage(dto.getImage());
-//	    product.setStore(store);
+	    product.setStore(store);
+	    product.setCategory(category);
 
 	    return product;
 	}
