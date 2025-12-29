@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.snorlax.event.ProductCreatedEvent;
+import com.snorlax.kafka.ProductEventProducer;
 import com.snorlax.mapper.ProductMapper;
 import com.snorlax.modal.Category;
 import com.snorlax.modal.Product;
@@ -29,6 +31,7 @@ public class ProductServiceImpl implements ProductService{
 	private final ProductMyBatisMapper productMyBatisMapper;
 	private final StoreRepository storeRepository;
 	private final CategoryRepository categoryRepository;
+	private final ProductEventProducer productEventProducer;
 	
 	@Override
 	public ProductDto createProduct(ProductDto productDto, User user) throws Exception {
@@ -41,6 +44,20 @@ public class ProductServiceImpl implements ProductService{
 		
 		Product product = ProductMapper.toEntity(productDto, store, category);
 		Product savedProduct = productRepository.save(product);
+		
+		// Publish Event
+		Long managerId = (long) 52; //temporary
+		
+		ProductCreatedEvent event = new ProductCreatedEvent(
+				savedProduct.getId(),
+				savedProduct.getName(),
+				savedProduct.getCategory().getId(),
+				savedProduct.getStore().getId(),
+				managerId
+		);
+		
+		productEventProducer.send(event);
+				
 		
 		return ProductMapper.toDTO(savedProduct);
 	}
